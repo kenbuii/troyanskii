@@ -1,0 +1,43 @@
+.sidebar-container {
+  width: 300px;
+  height: 100vh;
+  border-left: 1px solid #ccc;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.highlight-item {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.term {
+  margin-bottom: 8px;
+}
+
+.russian-term {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.romanization {
+  color: #666;
+  font-style: italic;
+}
+
+.translations {
+  margin-bottom: 8px;
+}
+
+.translation-option {
+  padding: 4px 0;
+  color: #444;
+}
+
+.context {
+  font-size: 0.9em;
+  color: #666;
+  font-style: italic;
+}
