@@ -1,19 +1,12 @@
 {
-  "name": "troyanskii",
+  "name": "my-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.33.1",
-    "@supabase/supabase-js": "^2.47.8",
-    "@testing-library/react": "^16.1.0",
     "cra-template-typescript": "1.2.0",
-    "docx": "^9.1.0",
-    "pdf-parse": "^1.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-pdf": "^9.1.1",
-    "react-scripts": "^5.0.1",
-    "web-vitals": "^4.2.4"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

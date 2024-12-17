@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import './styles/TranslationInterface.css';
 
 const TranslationInterface: React.FC = () => {
   const [sourceText, setSourceText] = useState<string>('');
   const [translatedText, setTranslatedText] = useState<string>('');
 
-  const handleTranslation = async () => {
-    // Implementation for Claude API call will go here
+  const handleSourceTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setSourceText(e.target.value);
   };
 
   return (
@@ -15,7 +15,7 @@ const TranslationInterface: React.FC = () => {
         <div className="source-text">
           <textarea
             value={sourceText}
-            onChange={(e) => setSourceText(e.target.value)}
+            onChange={handleSourceTextChange}
             placeholder="Enter Russian text..."
           />
         </div>

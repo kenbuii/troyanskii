@@ -6,19 +6,19 @@ interface SidebarAnalysisProps {
   highlights: HighlightedTerm[];
 }
 
-const SidebarAnalysis: React.FC<SidebarAnalysisProps> = ({ highlights }) => {
+export const SidebarAnalysis: React.FC<SidebarAnalysisProps> = ({ highlights }) => {
   return (
     <div className="sidebar-container">
       <div className="highlights-section">
         <h3>Highlighted Terms</h3>
-        {highlights.map((highlight, index) => (
+        {highlights.map((highlight: HighlightedTerm, index: number) => (
           <div key={index} className="highlight-item">
             <div className="term">
               <span className="russian-term">{highlight.term}</span>
               <span className="romanization">({highlight.romanization})</span>
             </div>
             <div className="translations">
-              {highlight.possibleTranslations.map((translation, i) => (
+              {highlight.possibleTranslations.map((translation: string, i: number) => (
                 <div key={i} className="translation-option">
                   {translation}
                 </div>
@@ -31,5 +31,3 @@ const SidebarAnalysis: React.FC<SidebarAnalysisProps> = ({ highlights }) => {
     </div>
   );
 };
-
-export default SidebarAnalysis;
