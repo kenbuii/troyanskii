@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-header {
@@ -11,11 +14,50 @@
   font-weight: bold;
 }
 
+.App-subheader {
+  background-color: #FDD3D0;
+  color: #02542D;
+  padding: 1rem;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 800px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .App-container {
   display: flex;
-  height: calc(100vh - 77px);
+  flex: 1;
+  padding: 20px;
+  gap: 20px;
+}
+
+.App-translation-interface {
+  flex: 1;
+}
+
+.App-sidebar-analysis {
+  flex: 1;
+  border-color: #02542D;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 8px;
+  padding: 1rem;
 }
 
 .App-link {
   color: #61dafb;
 } 
+
+.App-footer {
+  background-color: #02542D;
+  color: #FDD3D0;
+  padding: 1rem;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+}
+

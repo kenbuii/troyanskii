@@ -1,9 +1,42 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect, useCallback } from 'react';
+import { translateText } from '../services/anthropicService';
 import './styles/TranslationInterface.css';
+
+const DEBOUNCE_DELAY = 1000; // 1 second delay
 
 const TranslationInterface: React.FC = () => {
   const [sourceText, setSourceText] = useState<string>('');
   const [translatedText, setTranslatedText] = useState<string>('');
+  const [isTranslating, setIsTranslating] = useState<boolean>(false);
+
+  const debouncedTranslate = useCallback(
+    async (text: string) => {
+      if (!text.trim()) {
+        setTranslatedText('');
+        return;
+      }
+
+      try {
+        setIsTranslating(true);
+        const translation = await translateText(text);
+        setTranslatedText(translation);
+      } catch (error) {
+        setTranslatedText('Translation error occurred. Please try again.');
+        console.error('Translation error:', error);
+      } finally {
+        setIsTranslating(false);
+      }
+    },
+    []
+  );
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      debouncedTranslate(sourceText);
+    }, DEBOUNCE_DELAY);
+
+    return () => clearTimeout(handler);
+  }, [sourceText, debouncedTranslate]);
 
   const handleSourceTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setSourceText(e.target.value);
@@ -21,7 +54,7 @@ const TranslationInterface: React.FC = () => {
         </div>
         <div className="translated-text">
           <textarea
-            value={translatedText}
+            value={isTranslating ? 'Translating...' : translatedText}
             readOnly
             placeholder="English translation will appear here..."
           />

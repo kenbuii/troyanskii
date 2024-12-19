@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.env
+src/services/anthropicService.ts
+src/services/anthropicService.ts
