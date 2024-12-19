@@ -1,11 +1,14 @@
+/* Sidebar container with Kino font */
 .sidebar-container {
   width: 300px;
   height: 100vh;
   border-left: 1px solid #ccc;
   padding: 20px;
   overflow-y: auto;
+  font-family: 'Kino', sans-serif;
 }
 
+/* Highlighted term container */
 .highlight-item {
   margin-bottom: 20px;
   padding: 10px;
@@ -13,6 +16,7 @@
   border-radius: 4px;
 }
 
+/* Russian term styling */
 .term {
   margin-bottom: 8px;
 }
@@ -20,13 +24,16 @@
 .russian-term {
   font-weight: bold;
   margin-right: 8px;
+  font-family: 'Kino', sans-serif;
 }
 
 .romanization {
   color: #666;
   font-style: italic;
+  font-family: 'Kino', sans-serif;
 }
 
+/* Translation section styling */
 .translations {
   margin-bottom: 8px;
 }
@@ -34,10 +41,13 @@
 .translation-option {
   padding: 4px 0;
   color: #444;
+  font-family: 'Kino', sans-serif;
 }
 
+/* Context section styling */
 .context {
   font-size: 0.9em;
   color: #666;
   font-style: italic;
+  font-family: 'Kino', sans-serif;
 }
