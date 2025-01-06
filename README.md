@@ -1,6 +1,14 @@
-# Getting Started with Create React App
+# Troyanskii
+
+This is a specialized translation webapp with the following features:
+1. Prompt-engineered Claude 3 Opus model tailored to receive and translate Cold War-era Soviet primary documents.
+2. Keywords that may have multiple meanings are flagged in "highlighted terms" and correspond to a saved query for a particular document.
+3. Conversational "searchbar" built in to traverse knowledge base, using Anthropic's [Contextual Retrieval approach](https://www.anthropic.com/news/contextual-retrieval) to Retrieval Augmented Generation (RAG) methodology and [Prompt Caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching) [TODO]
+4. Google Drive integration [TODO] for adding to the project knowledge base.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+##below is boilerplate from the react project README
 
 ## Available Scripts
 
