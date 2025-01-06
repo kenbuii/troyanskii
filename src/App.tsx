@@ -13,21 +13,28 @@ function App() {
       <header className="App-header">
         Troyanskii
       </header>
-      <div className="App-subheader">
+
+      {/* <div className="App-subheader">
         <p>
           This is a landing page for the Troyanskii project. 
           
           Seeing as this is a domain-specific project, this is a tailored machine translation project to translate Russian language documents and text to English. 
         </p>
         <p>Other languages may be supported at a later date.</p>
-      </div>
+      </div> */}
+
       <div className="App-container">
-        <TranslationInterface />
-        <SidebarAnalysis highlights={[]} />
+        <div className="translation-interface">
+          <TranslationInterface />
+        </div>
+        <div className="sidebar-analysis">
+          <SidebarAnalysis highlights={[]} />
+        </div>
       </div>
+     
       <div className="App-footer"> 
         <p>
-          All rights reserved. This project was created by Kenneth Bui to assist in the translation of Russian-language Soviet-era documents for his Honors Thesis in Science, Technology, and Society at Stanford University. 
+          All rights reserved. Created by Kenneth Bui.
         </p>
       </div>
     </div>
