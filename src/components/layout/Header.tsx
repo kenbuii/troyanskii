@@ -11,7 +11,7 @@ export const Header: React.FC<HeaderProps> = ({ title = 'Troyanskii' }) => {
       <div className="header-container">
         <h1 className="header-title">{title}</h1>
         <div className="header-subtitle">
-          Russian to English Translation
+          Specialized Russian to English Translation
         </div>
       </div>
     </header>

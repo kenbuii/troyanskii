@@ -1,54 +1,105 @@
-# Troyanskii
+# Troyanskii Document Translation Tool
 
-This is a specialized translation webapp with the following features:
-1. Prompt-engineered Claude 3 Opus model tailored to receive and translate Cold War-era Soviet primary documents.
-2. Keywords that may have multiple meanings are flagged in "highlighted terms" and correspond to a saved query for a particular document.
-3. Conversational "searchbar" built in to traverse knowledge base, using Anthropic's [Contextual Retrieval approach](https://www.anthropic.com/news/contextual-retrieval) to Retrieval Augmented Generation (RAG) methodology and [Prompt Caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching) [TODO]
-4. Google Drive integration [TODO] for adding to the project knowledge base.
+A specialized tool for translating Russian documents to English, with a focus on Soviet-era documents related to cybernetics, the Scientific-Technological Revolution (STR), and political-economic reform.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
 
-##below is boilerplate from the react project README
+- Text translation from Russian to English
+- Document processing and translation (PDF, DOCX, TXT)
+- Image text extraction and translation (JPG, PNG, HEIC)
+- Specialized translation for Soviet-era terminology and concepts
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+1. Clone the repository
+2. Install dependencies:
 
-### `npm start`
+```bash
+npm install
+# or
+yarn install
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Required Dependencies
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The document processing service requires the following packages:
 
-### `npm test`
+```bash
+npm install pdfjs-dist mammoth tesseract.js @anthropic-ai/sdk
+# or
+yarn add pdfjs-dist mammoth tesseract.js @anthropic-ai/sdk
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Environment Variables
 
-### `npm run build`
+Create a `.env` file in the root directory with the following variables:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+REACT_APP_ANTHROPIC_API_KEY=your_anthropic_api_key
+REACT_APP_SUPABASE_URL=your_supabase_url
+REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Usage
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Document Processing
 
-### `npm run eject`
+The application supports processing and text extraction from various document formats:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- **PDF**: Extract text from PDF documents
+- **DOCX**: Extract text from Microsoft Word documents
+- **Images (JPG, PNG)**: Extract text using OCR (Optical Character Recognition)
+- **HEIC**: Extract text using Claude Vision API
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Example usage:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```typescript
+import { processDocument } from './src/services/documentProcessing';
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+// Process a file input
+const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+fileInput.addEventListener('change', async (event) => {
+  const file = fileInput.files?.[0];
+  if (file) {
+    try {
+      const extractedText = await processDocument(file);
+      console.log('Extracted text:', extractedText);
+      // Now you can use the text for translation
+    } catch (error) {
+      console.error('Error processing document:', error);
+    }
+  }
+});
+```
 
-## Learn More
+### Translation
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The application uses Claude AI to translate Russian text to English:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```typescript
+import { translateText } from './src/services/anthropicService';
+
+async function translateDocument(russianText: string) {
+  try {
+    const translatedText = await translateText(russianText);
+    console.log('Translated text:', translatedText);
+  } catch (error) {
+    console.error('Error translating text:', error);
+  }
+}
+```
+
+## Development
+
+### Project Structure
+
+- `src/services/`: Service modules for API interactions and document processing
+  - `anthropicService.ts`: Claude AI integration for translation
+  - `documentProcessing.ts`: Document text extraction
+  - `supabaseService.ts`: Database integration
+- `src/components/`: React components
+- `src/types/`: TypeScript type definitions
+
+## License
+
+[MIT License](LICENSE)

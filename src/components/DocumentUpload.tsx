@@ -1,6 +1,8 @@
 import React, { useState, useRef, ChangeEvent } from 'react';
 import Card from './common/Card';
 import Button from './common/Button';
+import { processDocument } from '../services/documentProcessing';
+import { translateText } from '../services/anthropicService';
 import './DocumentUpload.css';
 
 interface DocumentUploadProps {
@@ -10,12 +12,20 @@ interface DocumentUploadProps {
 const DocumentUpload: React.FC<DocumentUploadProps> = ({ onFileUpload }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [processingStatus, setProcessingStatus] = useState<string>('');
+  const [extractedText, setExtractedText] = useState<string>('');
+  const [translatedText, setTranslatedText] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       setSelectedFile(file);
+      // Reset states when a new file is selected
+      setExtractedText('');
+      setTranslatedText('');
+      setProcessingStatus('');
     }
   };
 
@@ -36,6 +46,10 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onFileUpload }) => {
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const file = e.dataTransfer.files[0];
       setSelectedFile(file);
+      // Reset states when a new file is selected
+      setExtractedText('');
+      setTranslatedText('');
+      setProcessingStatus('');
     }
   };
 
@@ -45,9 +59,31 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onFileUpload }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (selectedFile) {
-      onFileUpload(selectedFile);
+      try {
+        setIsProcessing(true);
+        setProcessingStatus('Extracting text from document...');
+        
+        // Process the document to extract text
+        const text = await processDocument(selectedFile);
+        setExtractedText(text);
+        
+        // Notify parent component
+        onFileUpload(selectedFile);
+        
+        // Translate the extracted text
+        setProcessingStatus('Translating text...');
+        const translated = await translateText(text);
+        setTranslatedText(translated);
+        
+        setProcessingStatus('Document processed and translated successfully!');
+      } catch (error) {
+        console.error('Error processing document:', error);
+        setProcessingStatus(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      } finally {
+        setIsProcessing(false);
+      }
     }
   };
 
@@ -71,7 +107,7 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onFileUpload }) => {
           type="file" 
           ref={fileInputRef}
           onChange={handleFileChange}
-          accept=".pdf,.doc,.docx,.txt"
+          accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.heic"
           className="document-upload-input"
         />
         
@@ -100,22 +136,46 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onFileUpload }) => {
             </div>
             <div className="document-upload-text">
               <p>Drag and drop a file here, or click to browse</p>
-              <p className="document-upload-formats">Supported formats: PDF, DOC, DOCX, TXT</p>
+              <p className="document-upload-formats">Supported formats: PDF, DOCX, TXT, JPG, PNG, HEIC</p>
             </div>
           </div>
         )}
       </div>
 
+      {processingStatus && (
+        <div className={`document-upload-status ${isProcessing ? 'processing' : ''}`}>
+          {processingStatus}
+        </div>
+      )}
+
       <div className="document-upload-actions">
         <Button 
           variant="primary" 
           onClick={handleSubmit}
-          disabled={!selectedFile}
+          disabled={!selectedFile || isProcessing}
           fullWidth
         >
-          Upload and Translate
+          {isProcessing ? 'Processing...' : 'Upload and Translate'}
         </Button>
       </div>
+
+      {extractedText && (
+        <div className="document-upload-result">
+          <h3>Extracted Text:</h3>
+          <div className="document-text-content">
+            {extractedText}
+          </div>
+        </div>
+      )}
+
+      {translatedText && (
+        <div className="document-upload-result">
+          <h3>Translated Text:</h3>
+          <div className="document-text-content">
+            {translatedText}
+          </div>
+        </div>
+      )}
     </Card>
   );
 };

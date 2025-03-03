@@ -105,4 +105,49 @@
 .document-upload-actions {
   display: flex;
   justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+/* New styles for document processing */
+.document-upload-status {
+  text-align: center;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0.5rem;
+  background-color: #f8f9fa;
+  color: #333333;
+  font-size: 0.875rem;
+}
+
+.document-upload-status.processing {
+  background-color: #e6f7ff;
+  color: #0070f3;
+  border-left: 3px solid #0070f3;
+}
+
+.document-upload-result {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #f8f9fa;
+}
+
+.document-upload-result h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2A5547;
+  margin-bottom: 0.75rem;
+}
+
+.document-text-content {
+  padding: 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e0e0e0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  max-height: 300px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
 } 
