@@ -1,0 +1,108 @@
+.document-upload-card {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.document-upload-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.document-upload-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2A5547;
+  margin-bottom: 0.5rem;
+}
+
+.document-upload-description {
+  font-size: 1rem;
+  color: #666666;
+}
+
+.document-upload-dropzone {
+  border: 2px dashed #E0E0E0;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+  position: relative;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.document-upload-dropzone:hover {
+  border-color: #2A5547;
+  background-color: rgba(42, 85, 71, 0.02);
+}
+
+.document-upload-dropzone.dragging {
+  border-color: #2A5547;
+  background-color: rgba(42, 85, 71, 0.05);
+}
+
+.document-upload-dropzone.has-file {
+  border-color: #2A5547;
+  background-color: rgba(42, 85, 71, 0.02);
+}
+
+.document-upload-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.document-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.document-upload-icon {
+  color: #2A5547;
+  margin-bottom: 1rem;
+}
+
+.document-upload-text p {
+  margin: 0;
+  color: #333333;
+}
+
+.document-upload-formats {
+  font-size: 0.875rem;
+  color: #666666;
+  margin-top: 0.5rem !important;
+}
+
+.document-upload-file-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.document-upload-file-icon {
+  color: #2A5547;
+  margin-bottom: 1rem;
+}
+
+.document-upload-file-name {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  word-break: break-all;
+}
+
+.document-upload-file-size {
+  font-size: 0.875rem;
+  color: #666666;
+}
+
+.document-upload-actions {
+  display: flex;
+  justify-content: center;
+} 

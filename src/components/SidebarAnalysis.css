@@ -1,0 +1,103 @@
+.sidebar-analysis {
+  width: 100%;
+  max-width: 350px;
+}
+
+.sidebar-card {
+  height: 100%;
+}
+
+.sidebar-header {
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2A5547;
+}
+
+.highlights-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.highlights-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 1rem;
+}
+
+.highlights-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.highlight-item {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #F5F5F5;
+  border-left: 3px solid #2A5547;
+}
+
+.term {
+  margin-bottom: 0.5rem;
+}
+
+.russian-term {
+  font-weight: 600;
+  margin-right: 0.5rem;
+  color: #2A5547;
+}
+
+.romanization {
+  color: #666666;
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+.translations {
+  margin-bottom: 0.75rem;
+}
+
+.translation-option {
+  padding: 0.25rem 0;
+  color: #333333;
+  font-size: 0.875rem;
+}
+
+.translation-option:not(:last-child) {
+  border-bottom: 1px dashed #E0E0E0;
+}
+
+.context {
+  font-size: 0.75rem;
+  color: #666666;
+  font-style: italic;
+  padding-top: 0.5rem;
+  border-top: 1px solid #E0E0E0;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #666666;
+}
+
+.empty-state p {
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-hint {
+  font-size: 0.875rem;
+  color: #999999;
+}
+
+@media (max-width: 768px) {
+  .sidebar-analysis {
+    max-width: 100%;
+    margin-top: 1.5rem;
+  }
+} 

@@ -1,0 +1,96 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  border: none;
+}
+
+/* Button variants */
+.button-primary {
+  background-color: #2A5547;
+  color: white;
+}
+
+.button-primary:hover {
+  background-color: #1e3d33;
+}
+
+.button-primary:active {
+  background-color: #152b24;
+}
+
+.button-secondary {
+  background-color: #EDE8D0;
+  color: #2A5547;
+}
+
+.button-secondary:hover {
+  background-color: #e5dfc1;
+}
+
+.button-secondary:active {
+  background-color: #ddd6b2;
+}
+
+.button-outline {
+  background-color: transparent;
+  color: #2A5547;
+  border: 1px solid #2A5547;
+}
+
+.button-outline:hover {
+  background-color: rgba(42, 85, 71, 0.05);
+}
+
+.button-outline:active {
+  background-color: rgba(42, 85, 71, 0.1);
+}
+
+.button-text {
+  background-color: transparent;
+  color: #2A5547;
+}
+
+.button-text:hover {
+  background-color: rgba(42, 85, 71, 0.05);
+}
+
+.button-text:active {
+  background-color: rgba(42, 85, 71, 0.1);
+}
+
+/* Button sizes */
+.button-sm {
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
+  height: 2rem;
+}
+
+.button-md {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  height: 2.5rem;
+}
+
+.button-lg {
+  font-size: 1.125rem;
+  padding: 0.625rem 1.25rem;
+  height: 3rem;
+}
+
+/* Full width button */
+.button-full-width {
+  width: 100%;
+}
+
+/* Disabled state */
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+} 

@@ -27,4 +27,6 @@ export async function translateText(russianText: string) {
   }
 }
 
+//todo: also add function to extract text from images, using claude vision modelling 
+
 export { anthropic };

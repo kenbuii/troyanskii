@@ -1,0 +1,81 @@
+.translation-interface {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.translation-container {
+  width: 100%;
+}
+
+.translation-card {
+  width: 100%;
+}
+
+.translation-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.translation-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2A5547;
+  margin-bottom: 0.5rem;
+}
+
+.translation-description {
+  font-size: 1rem;
+  color: #666666;
+}
+
+.translation-alert {
+  margin-bottom: 1.5rem;
+}
+
+.translation-panels {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.source-panel,
+.translation-panel {
+  flex: 1;
+  min-width: 0;
+}
+
+.translation-label-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.translation-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #666666;
+}
+
+.translation-loading-text {
+  font-style: italic;
+}
+
+.translation-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .translation-interface {
+    padding: 1.5rem 1rem;
+  }
+  
+  .translation-panels {
+    flex-direction: column;
+  }
+} 
