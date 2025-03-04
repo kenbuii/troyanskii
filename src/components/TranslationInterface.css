@@ -3,10 +3,19 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
+  display: flex;
+  gap: 2rem;
 }
 
 .translation-container {
+  flex: 3;
   width: 100%;
+}
+
+.sidebar-container {
+  flex: 1;
+  min-width: 250px;
+  max-width: 350px;
 }
 
 .translation-card {
@@ -68,6 +77,35 @@
 .translation-actions {
   display: flex;
   justify-content: flex-end;
+}
+
+.resizable-textarea {
+  min-height: 200px;
+  resize: both !important;
+}
+
+.analysis-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: #666666;
+  font-style: italic;
+}
+
+@media (max-width: 992px) {
+  .translation-interface {
+    flex-direction: column;
+  }
+  
+  .sidebar-container {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 768px) {

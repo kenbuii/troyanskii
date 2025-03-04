@@ -1,11 +1,14 @@
 import { PDFDocumentProxy } from 'pdfjs-dist';
 import * as pdfjs from 'pdfjs-dist';
+import { anthropic } from './anthropicService';
 // We'll need to install these packages:
 // npm install mammoth tesseract.js
 // For now, use require with type assertions to avoid TypeScript errors
 const mammoth = require('mammoth') as any;
 const Tesseract = require('tesseract.js') as any;
-import { anthropic } from './anthropicService';
+
+//TODO: handle RUS language for Tesseract OCR primarily, then to eng
+//TODO: in app.tsx, add loading spinner when processing document
 
 // Set up PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
@@ -62,6 +65,7 @@ export async function extractTextFromDOCX(file: File): Promise<string> {
  */
 export async function extractTextFromImage(file: File): Promise<string> {
   try {
+    // Prioritize Russian language recognition, with English as fallback
     const { data } = await Tesseract.recognize(file, 'rus+eng', {
       logger: (m: any) => console.log(m)
     });
@@ -100,7 +104,7 @@ export async function extractTextFromImageWithClaude(file: File): Promise<string
     const response = await anthropic.messages.create({
       model: "claude-3-opus-20240229",
       max_tokens: 4096,
-      system: "You are a helpful assistant that extracts text from images. Extract all visible text from the image, preserving the original language.",
+      system: "You are a helpful assistant that extracts text from images. Extract all visible text from the image, preserving the original language. Pay special attention to Russian text and ensure accurate extraction.",
       messages: [
         {
           role: "user",
@@ -115,7 +119,7 @@ export async function extractTextFromImageWithClaude(file: File): Promise<string
             },
             {
               type: "text",
-              text: "Please extract all text from this image, preserving the original language and formatting as much as possible."
+              text: "Please extract all text from this image, preserving the original language (especially Russian) and formatting as much as possible."
             }
           ]
         }
@@ -136,20 +140,30 @@ export async function extractTextFromImageWithClaude(file: File): Promise<string
 /**
  * Process a document file and extract its text content
  * @param file File to process
+ * @param onProgress Optional callback for progress updates
  * @returns Extracted text content
  */
-export async function processDocument(file: File): Promise<string> {
+export async function processDocument(file: File, onProgress?: (progress: number) => void): Promise<string> {
   const fileType = file.type.toLowerCase();
   const fileName = file.name.toLowerCase();
   
+  // Report initial progress
+  if (onProgress) onProgress(10);
+  
   // Process based on file type
   if (fileType === 'application/pdf' || fileName.endsWith('.pdf')) {
-    return extractTextFromPDF(file);
+    if (onProgress) onProgress(30);
+    const result = await extractTextFromPDF(file);
+    if (onProgress) onProgress(100);
+    return result;
   } else if (
     fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
     fileName.endsWith('.docx')
   ) {
-    return extractTextFromDOCX(file);
+    if (onProgress) onProgress(30);
+    const result = await extractTextFromDOCX(file);
+    if (onProgress) onProgress(100);
+    return result;
   } else if (
     fileType === 'application/msword' || 
     fileName.endsWith('.doc')
@@ -162,25 +176,44 @@ export async function processDocument(file: File): Promise<string> {
     fileName.endsWith('.png') || 
     fileName.endsWith('.heic')
   ) {
+    if (onProgress) onProgress(30);
+    
     // For HEIC and other image formats, use Claude Vision for better results
     if (fileName.endsWith('.heic')) {
-      return extractTextFromImageWithClaude(file);
+      if (onProgress) onProgress(50);
+      const result = await extractTextFromImageWithClaude(file);
+      if (onProgress) onProgress(100);
+      return result;
     }
     
     // For standard image formats, try Tesseract first, fall back to Claude if needed
     try {
+      if (onProgress) onProgress(50);
       const text = await extractTextFromImage(file);
+      if (onProgress) onProgress(80);
+      
       // If Tesseract returns very little text, try Claude Vision
       if (text.length < 50) {
-        return extractTextFromImageWithClaude(file);
+        if (onProgress) onProgress(85);
+        const result = await extractTextFromImageWithClaude(file);
+        if (onProgress) onProgress(100);
+        return result;
       }
+      
+      if (onProgress) onProgress(100);
       return text;
     } catch (error) {
       console.warn('Tesseract OCR failed, falling back to Claude Vision:', error);
-      return extractTextFromImageWithClaude(file);
+      if (onProgress) onProgress(85);
+      const result = await extractTextFromImageWithClaude(file);
+      if (onProgress) onProgress(100);
+      return result;
     }
   } else if (fileType === 'text/plain' || fileName.endsWith('.txt')) {
-    return await file.text();
+    if (onProgress) onProgress(50);
+    const result = await file.text();
+    if (onProgress) onProgress(100);
+    return result;
   } else {
     throw new Error(`Unsupported file format: ${fileType || fileName}`);
   }

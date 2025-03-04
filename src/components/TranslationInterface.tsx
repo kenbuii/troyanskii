@@ -1,19 +1,27 @@
 import React, { useState, ChangeEvent, useEffect, useCallback } from 'react';
-import { translateText } from '../services/anthropicService';
+import { translateText, analyzeText } from '../services/anthropicService';
 import Card from './common/Card';
 import TextArea from './common/TextArea';
 import Button from './common/Button';
 import Spinner from './common/Spinner';
 import Alert from './common/Alert';
+import SidebarAnalysis from './SidebarAnalysis';
+import { HighlightedTerm } from '../types';
 import './TranslationInterface.css';
 
 const DEBOUNCE_DELAY = 1000; // 1 second delay
+
+//TODO: need to prompt engineer ONLY translation in the english translation box, also add resizable window for output / make it bigger?
+//TODO: shift the analysis over to SidebarAnalysis.tsx / highlighted terms
+
 
 const TranslationInterface: React.FC = () => {
   const [sourceText, setSourceText] = useState<string>('');
   const [translatedText, setTranslatedText] = useState<string>('');
   const [isTranslating, setIsTranslating] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [highlights, setHighlights] = useState<HighlightedTerm[]>([]);
+  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
 
   const debouncedTranslate = useCallback(
     async (text: string) => {
@@ -28,6 +36,12 @@ const TranslationInterface: React.FC = () => {
         setError(null);
         const translation = await translateText(text);
         setTranslatedText(translation);
+        
+        // After translation, analyze the text for highlighted terms
+        setIsAnalyzing(true);
+        const terms = await analyzeText(text);
+        setHighlights(terms);
+        setIsAnalyzing(false);
       } catch (error) {
         setError('Translation error occurred. Please try again.');
         console.error('Translation error:', error);
@@ -53,6 +67,7 @@ const TranslationInterface: React.FC = () => {
   const handleClearText = () => {
     setSourceText('');
     setTranslatedText('');
+    setHighlights([]);
     setError(null);
   };
 
@@ -107,6 +122,7 @@ const TranslationInterface: React.FC = () => {
                 placeholder={isTranslating ? 'Translating...' : 'Translation will appear here...'}
                 readOnly
                 fullWidth
+                className="resizable-textarea"
               />
             </div>
           </div>
@@ -121,6 +137,17 @@ const TranslationInterface: React.FC = () => {
             </Button>
           </div>
         </Card>
+      </div>
+      
+      <div className="sidebar-container">
+        {isAnalyzing ? (
+          <div className="analysis-loading">
+            <Spinner size="md" />
+            <span>Analyzing text...</span>
+          </div>
+        ) : (
+          <SidebarAnalysis highlights={highlights} />
+        )}
       </div>
     </div>
   );
